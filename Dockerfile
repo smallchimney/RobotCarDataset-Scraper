@@ -1,5 +1,5 @@
 # os
-FROM ubuntu:16.04
+FROM ubuntu:18.04
 
 # apt
 RUN apt-get -y update \
@@ -8,9 +8,12 @@ RUN apt-get -y update \
 	&& apt-get install -y git python-pip python3-pip
 
 # pip
-RUN git clone https://github.com/matthewgadd/RobotCarDataset-Scraper.git \
-    && cd RobotCarDataset-Scraper \
-    && pip3 install -r requirements.txt
+COPY requirements.txt /RobotCarDataset-Scraper/
+WORKDIR /RobotCarDataset-Scraper
+RUN pip3 install -r requirements.txt
+
+# add sources
+COPY * /RobotCarDataset-Scraper/
 
 # alias
 RUN echo 'alias python=python3' >> /root/.bashrc \
